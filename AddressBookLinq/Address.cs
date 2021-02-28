@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Reflection;
 
 namespace AddressBookLinq
@@ -56,11 +57,30 @@ namespace AddressBookLinq
             return AddressBook;
         }
 
+        public DataRow EditContactUsingName(string name, string Column, string data)
+        {
+            DataRow row = AddressBook.AsEnumerable().Where(contact => contact.Field<string>("FirstName") + " " + contact.Field<string>("LastName") == name)
+                .FirstOrDefault();
+            row[Column] = data;
+            return row;
+        }
+
         public DataRow AddContact(Contact contact)
         {
             AddressBook.Rows.Add(contact.FirstName, contact.LastName,
                 contact.Address, contact.City, contact.State, contact.Zip, contact.PhoneNumber, contact.Email);
             return AddressBook.Rows[AddressBook.Rows.Count-1];
+        }
+        public void printTable(DataTable dataTable)
+        {
+            foreach (DataColumn column in dataTable.Columns)
+            {
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    Console.Write(row[column]+" ");
+                }
+                Console.WriteLine();
+            }
         }
 
         static void Main()
