@@ -92,6 +92,22 @@ namespace AddressBookLinq
             }
         }
 
+        public DataTable RetrievePersonsFromCityOrState(string field, string param)
+        {
+            DataTable table;
+            try
+            {
+                var rows = AddressBook.AsEnumerable().Where(contact => contact.Field<string>(field) == param);
+                table = rows.Any() ? rows.CopyToDataTable() : null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }           
+            return table;
+        }
+
         static void Main()
         {
             Console.WriteLine("Hello World!");

@@ -30,7 +30,7 @@ namespace NUnitTestProject
             row["LastName"] = "Sher";
             row["Address"] = "Shivajinagr";
             row["City"] = "Pune";
-            row["State"] = "State";
+            row["State"] = "Mah";
             row["Zip"] = "111 222";
             row["PhoneNumber"] = "91 2837373737";
             row["Email"] = "sam@g.com";
@@ -58,7 +58,7 @@ namespace NUnitTestProject
         }
 
         [Test]
-        public void GivenTable_DeletedContact_ShouldReturnTrue()
+        public void GivenTable_WhenDeletedContact_ShouldReturnTrue()
         {
             Contact contact = new Contact("Sam", "Sher", "Shivajinagr", "Pune", "Mah", "111 222", "91 2837373737", "sam@g.com");
             Contact contact1 = new Contact("Maj", "Sin", "vile", "mumbai", "Mah", "111 222", "91 2837373737", "maj@g.com");
@@ -67,6 +67,28 @@ namespace NUnitTestProject
             addressBook.AddContact(contact1);
             bool result = addressBook.DeleteContact("Maj Sin");
             Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void GivenTable_WhenRetrievePersonsBelongToCityOrState_ShouldReturnDataTable()
+        {
+            Contact contact = new Contact("Sam", "Sher", "Shivajinagr", "Pune", "Mah", "111 222", "91 2837373737", "sam@g.com");
+            Contact contact1 = new Contact("Maj", "Sin", "vile", "mumbai", "Mah", "111 222", "91 2837373737", "maj@g.com");
+
+            addressBook.AddContact(contact);
+            addressBook.AddContact(contact1);
+            DataRow row = addressBook.AddressBook.NewRow();
+            row["FirstName"] = "Sam";
+            row["LastName"] = "Sher";
+            row["Address"] = "kondhwa";
+            row["City"] = "Pune";
+            row["State"] = "State";
+            row["Zip"] = "111 222";
+            row["PhoneNumber"] = "91 2837373737";
+            row["Email"] = "sam@g.com";
+            DataTable table = addressBook.RetrievePersonsFromCityOrState("City", "Pune");
+            Assert.AreEqual(row["City"], table.Rows[0]["City"]);
+
         }
 
     }
