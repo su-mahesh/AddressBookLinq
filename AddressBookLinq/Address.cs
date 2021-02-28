@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection;
 
 namespace AddressBookLinq
 {
-    public class AddressBook
+    public class AddressBookService
     {
-        private DataSet AddressBookDB;
+        private DataSet AddressBookDB = new DataSet("AddressBookService");
+        public DataTable AddressBook;
         public DataTable CreateAddressBookTable()
         {
-            DataTable AddressBook = new DataTable("AddressBook");
+            AddressBook = new DataTable("AddressBook");
             DataColumn column;
             column = new DataColumn();
             column.DataType = typeof(string);
@@ -37,24 +39,31 @@ namespace AddressBookLinq
             AddressBook.Columns.Add(column);
 
             column = new DataColumn();
-            column.DataType = typeof(int);
+            column.DataType = typeof(string);
             column.ColumnName = "Zip";
             AddressBook.Columns.Add(column);
 
             column = new DataColumn();
-            column.DataType = typeof(decimal);
+            column.DataType = typeof(string);
             column.ColumnName = "PhoneNumber";
             AddressBook.Columns.Add(column);
 
             column = new DataColumn();
             column.DataType = typeof(string);
-            column.ColumnName = "email";
+            column.ColumnName = "Email";
             AddressBook.Columns.Add(column);
-
+            AddressBookDB.Tables.Add(AddressBook);
             return AddressBook;
         }
 
-            static void Main()
+        public DataRow AddContact(Contact contact)
+        {
+            AddressBook.Rows.Add(contact.FirstName, contact.LastName,
+                contact.Address, contact.City, contact.State, contact.Zip, contact.PhoneNumber, contact.Email);
+            return AddressBook.Rows[AddressBook.Rows.Count-1];
+        }
+
+        static void Main()
         {
             Console.WriteLine("Hello World!");
         }
