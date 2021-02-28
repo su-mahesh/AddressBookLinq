@@ -22,9 +22,8 @@ namespace NUnitTestProject
 
         [Test]
         public void GivenContact_WhenAdded_ShouldReturnRow()
-        {
-            
-            Contact contact = new Contact("Sam", "Sher", "Shivajinagr", "Pune",  "State", "111 222", "91 2837373737", "sam@g.com");
+        {            
+            Contact contact = new Contact("Sam", "Sher", "Shivajinagr", "Pune",  "Mah", "111 222", "91 2837373737", "sam@g.com");
             DataRow result = addressBook.AddContact(contact);
             DataRow row = addressBook.AddressBook.NewRow();
             row["FirstName"] = "Sam";
@@ -42,7 +41,7 @@ namespace NUnitTestProject
         [Test]
         public void GivenTable_EditedUsingName_ShouldReturnDataRow()
         {
-            Contact contact = new Contact("Sam", "Sher", "Shivajinagr", "Pune", "State", "111 222", "91 2837373737", "sam@g.com");
+            Contact contact = new Contact("Sam", "Sher", "Shivajinagr", "Pune", "Mah", "111 222", "91 2837373737", "sam@g.com");
             addressBook.AddContact(contact);
             DataRow result = addressBook.EditContactUsingName("Sam Sher", "Address", "kondhwa");
             DataRow row = addressBook.AddressBook.NewRow();
@@ -56,6 +55,18 @@ namespace NUnitTestProject
             row["Email"] = "sam@g.com";
             
             Assert.AreEqual(row[2], result[2]);
+        }
+
+        [Test]
+        public void GivenTable_DeletedContact_ShouldReturnTrue()
+        {
+            Contact contact = new Contact("Sam", "Sher", "Shivajinagr", "Pune", "Mah", "111 222", "91 2837373737", "sam@g.com");
+            Contact contact1 = new Contact("Maj", "Sin", "vile", "mumbai", "Mah", "111 222", "91 2837373737", "maj@g.com");
+
+            addressBook.AddContact(contact);
+            addressBook.AddContact(contact1);
+            bool result = addressBook.DeleteContact("Maj Sin");
+            Assert.IsTrue(result);
         }
 
     }

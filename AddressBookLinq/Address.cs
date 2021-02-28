@@ -71,13 +71,22 @@ namespace AddressBookLinq
                 contact.Address, contact.City, contact.State, contact.Zip, contact.PhoneNumber, contact.Email);
             return AddressBook.Rows[AddressBook.Rows.Count-1];
         }
+
+        public bool DeleteContact(string name)
+        {
+            DataRow row = AddressBook.AsEnumerable().Where(contact => contact.Field<string>("FirstName") + " " + contact.Field<string>("LastName") == name)
+                .FirstOrDefault();
+            row.Delete();
+            return row.RowState.Equals(DataRowState.Detached);
+        }
+
         public void printTable(DataTable dataTable)
         {
-            foreach (DataColumn column in dataTable.Columns)
+            foreach (DataRow row in dataTable.Rows)
             {
-                foreach (DataRow row in dataTable.Rows)
+                foreach (DataColumn column in dataTable.Columns)
                 {
-                    Console.Write(row[column]+" ");
+                    Console.WriteLine(column.ColumnName.PadRight(10) + " : " + row[column] + " ");
                 }
                 Console.WriteLine();
             }
