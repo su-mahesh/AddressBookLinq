@@ -1,18 +1,23 @@
+using System.Data;
+using AddressBookLinq;
 using NUnit.Framework;
 
 namespace NUnitTestProject
 {
     public class AddressBookLinqTest
     {
-        [SetUp]
+        AddressBook addressBook;
+           [SetUp]
         public void Setup()
         {
+            addressBook = new AddressBook();
         }
 
         [Test]
-        public void Test1()
+        public void GivenTable_WhenChecked_ShouldRetunrTable()
         {
-            Assert.Pass();
+            DataTable result = addressBook.CreateAddressBookTable();
+            Assert.AreEqual(result.TableName, "AddressBook");
         }
     }
 }
