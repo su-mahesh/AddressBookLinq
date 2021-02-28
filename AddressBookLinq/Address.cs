@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Data;
 
 namespace AddressBookLinq
 {
-    class Program
+    class Address
     {
-        static void Main(string[] args)
+        private System.Data.DataSet AddressBookService;
+
+    
+
+        static void Main()
         {
             Console.WriteLine("Hello World!");
         }
