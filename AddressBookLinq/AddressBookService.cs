@@ -31,10 +31,17 @@ namespace AddressBookLinq
             AddressBook.PrimaryKey = new DataColumn[] { AddressBook.Columns["Name"] };
             AddressBookDB.Tables.Add(AddressBook);
 
-            Type.Columns.Add("TypeID", typeof(int));
+            DataColumn dc = Type.Columns.Add("TypeID", typeof(int));
+            dc.AutoIncrement = true;
+            dc.AutoIncrementSeed = 1;
+            dc.AutoIncrementStep = 1;
             Type.Columns.Add("Type", typeof(string));
             ContactType.Columns.Add("TypeID", typeof(int));
             ContactType.Columns.Add("Name", typeof(string));
+
+            Type.Rows.Add(null, "Family");
+            Type.Rows.Add(null, "Friends");
+            Type.Rows.Add(null, "Profession");
             AddressBookDB.Tables.Add(Type);
             AddressBookDB.Tables.Add(ContactType);
             ForeignKeyConstraint foreignKeyOnContactTypeTypeID = new ForeignKeyConstraint(
@@ -68,8 +75,11 @@ namespace AddressBookLinq
         /// <returns></returns>
         public DataRow AddContact(Contact contact)
         {
+            string Name = contact.FirstName + " " + contact.LastName;
             AddressBook.Rows.Add(contact.FirstName, contact.LastName,
-                contact.Address, contact.City, contact.State, contact.Zip, contact.PhoneNumber, contact.Email, contact.FirstName + " " + contact.LastName);
+                contact.Address, contact.City, contact.State, contact.Zip, contact.PhoneNumber, contact.Email, Name);
+            int TypeID = Type.AsEnumerable().Where(type => type.Field<string>("Type").Equals(contact.Type)).Select(type => type.Field<int>("TypeID")).FirstOrDefault();
+            ContactType.Rows.Add(TypeID, Name);
             return AddressBook.Rows[^1];
         }
         /// <summary>
@@ -140,11 +150,6 @@ namespace AddressBookLinq
         {
             return AddressBook.AsEnumerable().Where(contact => contact.Field<string>("City").Equals(city, StringComparison.OrdinalIgnoreCase))
                 .OrderBy(contact => contact.Field<string>("FirstName") + " " + contact.Field<string>("LastName")).CopyToDataTable();
-        }
-
-        static void Main()
-        {
-            Console.WriteLine("Hello World!");
-        }
+        }       
     }
 }

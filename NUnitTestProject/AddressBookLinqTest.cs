@@ -17,10 +17,10 @@ namespace NUnitTestProject
         public void Setup()
         {
             addressBook = new AddressBookService();
-            Contact contact = new Contact("Sam", "Sher", "Shivajinagr", "Pune", "Mah", "111 222", "91 2837373737", "sam@g.com");
-            Contact contact1 = new Contact("Maj", "Sin", "vile", "mumbai", "Mah", "111 222", "91 2837373737", "maj@g.com");
-            Contact contact2 = new Contact("Sim", "Ran", "patiala", "patiala", "Punjab", "111 222", "91 2837373737", "sim@g.com");
-            Contact contact3 = new Contact("M", "K", "vanas", "Pune", "Mah", "111 222", "91 2837373737", "mk@g.com");
+            Contact contact = new Contact("Sam", "Sher", "Shivajinagr", "Pune", "Mah", "111 222", "91 2837373737", "sam@g.com", "Friends");
+            Contact contact1 = new Contact("Maj", "Sin", "vile", "mumbai", "Mah", "111 222", "91 2837373737", "maj@g.com", "Family");
+            Contact contact2 = new Contact("Sim", "Ran", "patiala", "patiala", "Punjab", "111 222", "91 2837373737", "sim@g.com", "Profession");
+            Contact contact3 = new Contact("M", "K", "vanas", "Pune", "Mah", "111 222", "91 2837373737", "mk@g.com", "Family");
 
             addressBook.AddContact(contact);
             addressBook.AddContact(contact1);
@@ -41,7 +41,7 @@ namespace NUnitTestProject
         [Test]
         public void GivenContact_WhenAdded_ShouldReturnRow()
         {            
-            Contact contact = new Contact("Bruce", "Wayne", "Shivajinagr", "Pune",  "Mah", "111 222", "91 2837373737", "sam@g.com");
+            Contact contact = new Contact("Bruce", "Wayne", "Shivajinagr", "Pune",  "Mah", "111 222", "91 2837373737", "sam@g.com", "Family");
             DataRow result = addressBook.AddContact(contact);
             DataRow row = addressBook.AddressBook.NewRow();
             row["FirstName"] = "Bruce";

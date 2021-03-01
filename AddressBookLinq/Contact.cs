@@ -15,7 +15,9 @@ namespace AddressBookLinq
         public string PhoneNumber { get; set; } = "";
         public string Email { get; set; } = "";
 
-        public Contact(string FirstName, string LastName, string Address, string City, string State, string Zip, string PhoneNumber, string Email)
+        public string Type { get; set; } = "";
+
+        public Contact(string FirstName, string LastName, string Address, string City, string State, string Zip, string PhoneNumber, string Email, string Type)
         {
             this.FirstName = FirstName;
             this.LastName = LastName;
@@ -25,6 +27,7 @@ namespace AddressBookLinq
             this.Zip = Zip;
             this.PhoneNumber = PhoneNumber;
             this.Email = Email;
+            this.Type = Type;
         }
     }
 }
