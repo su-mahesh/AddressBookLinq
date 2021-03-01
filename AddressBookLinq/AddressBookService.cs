@@ -115,6 +115,12 @@ namespace AddressBookLinq
             return table;
         }
 
+        public DataTable GetSortedAddressBookByPersonsNameInCity(string city)
+        {
+            return AddressBook.AsEnumerable().Where(contact => contact.Field<string>("City").Equals(city, StringComparison.OrdinalIgnoreCase))
+                .OrderBy(contact => (contact.Field<string>("FirstName") + " " + contact.Field<string>("LastName"))).CopyToDataTable();
+        }
+
         static void Main()
         {
             Console.WriteLine("Hello World!");

@@ -93,5 +93,12 @@ namespace NUnitTestProject
             int result = addressBook.GetCountOfPersonsInCityOrState("City", "pune");
             Assert.AreEqual(2, result);
         }
+
+        [Test]
+        public void GivenTable_WhenRetrieveSortedAddressBookInCity_ShouldReturnExpected()
+        {
+            DataTable result = addressBook.GetSortedAddressBookByPersonsNameInCity("pune");
+            Assert.AreEqual(result.Rows[0]["FirstName"], "M");
+        }
     }
 }
