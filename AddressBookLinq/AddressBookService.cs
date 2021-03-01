@@ -36,12 +36,12 @@ namespace AddressBookLinq
             dc.AutoIncrementSeed = 1;
             dc.AutoIncrementStep = 1;
             Type.Columns.Add("Type", typeof(string));
-            ContactType.Columns.Add("TypeID", typeof(int));
-            ContactType.Columns.Add("Name", typeof(string));
-
             Type.Rows.Add(null, "Family");
             Type.Rows.Add(null, "Friends");
             Type.Rows.Add(null, "Profession");
+
+            ContactType.Columns.Add("TypeID", typeof(int));
+            ContactType.Columns.Add("Name", typeof(string));           
             AddressBookDB.Tables.Add(Type);
             AddressBookDB.Tables.Add(ContactType);
             ForeignKeyConstraint foreignKeyOnContactTypeTypeID = new ForeignKeyConstraint(
@@ -121,6 +121,7 @@ namespace AddressBookLinq
             count = AddressBook.AsEnumerable().Where(contact => contact.Field<string>(column).Equals(param, StringComparison.OrdinalIgnoreCase)).Count();
             return count;
         }
+
         /// <summary>
         /// Retrieves the state of the persons from city or.
         /// </summary>
@@ -140,6 +141,17 @@ namespace AddressBookLinq
                 throw;
             }           
             return table;
+        }
+        /// <summary>
+        /// Gets the count of persons in particular type.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
+        public int GetPersonCountByType(string type)
+        {
+            int TypeID = Type.AsEnumerable().Where(Type => Type.Field<string>("Type").Equals(type)).Select(Type => Type.Field<int>("TypeID")).FirstOrDefault();
+            return ContactType.AsEnumerable().Count(contact => contact.Field<int>("TypeID").Equals(TypeID));
+
         }
         /// <summary>
         /// Gets the sorted address book by persons name in city.
