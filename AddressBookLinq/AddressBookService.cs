@@ -8,7 +8,7 @@ namespace AddressBookLinq
 {
     public class AddressBookService
     {
-        private DataSet AddressBookDB = new DataSet("AddressBookService");
+        private readonly DataSet AddressBookDB = new DataSet("AddressBookService");
         public DataTable AddressBook;
         public DataTable CreateAddressBookTable()
         {
@@ -80,7 +80,7 @@ namespace AddressBookLinq
             return row.RowState.Equals(DataRowState.Detached);
         }
 
-        public void printTable(DataTable dataTable)
+        public void PrintTable(DataTable dataTable)
         {
             foreach (DataRow row in dataTable.Rows)
             {
@@ -90,6 +90,13 @@ namespace AddressBookLinq
                 }
                 Console.WriteLine();
             }
+        }
+
+        public int GetCountOfPersonsInCityOrState(string column, string param)
+        {
+            int count = 0;
+            count = AddressBook.AsEnumerable().Where(contact => contact.Field<string>(column).Equals(param, StringComparison.OrdinalIgnoreCase)).Count();
+            return count;
         }
 
         public DataTable RetrievePersonsFromCityOrState(string field, string param)

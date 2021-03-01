@@ -12,6 +12,15 @@ namespace NUnitTestProject
         {
             addressBook = new AddressBookService();
             addressBook.CreateAddressBookTable();
+            Contact contact = new Contact("Sam", "Sher", "Shivajinagr", "Pune", "Mah", "111 222", "91 2837373737", "sam@g.com");
+            Contact contact1 = new Contact("Maj", "Sin", "vile", "mumbai", "Mah", "111 222", "91 2837373737", "maj@g.com");
+            Contact contact2 = new Contact("Sim", "Ran", "patiala", "patiala", "Punjab", "111 222", "91 2837373737", "sim@g.com");
+            Contact contact3 = new Contact("M", "K", "vanas", "Pune", "Mah", "111 222", "91 2837373737", "mk@g.com");
+
+            addressBook.AddContact(contact);
+            addressBook.AddContact(contact1);
+            addressBook.AddContact(contact2);
+            addressBook.AddContact(contact3);
         }
 
         [Test]
@@ -41,8 +50,6 @@ namespace NUnitTestProject
         [Test]
         public void GivenTable_EditedUsingName_ShouldReturnDataRow()
         {
-            Contact contact = new Contact("Sam", "Sher", "Shivajinagr", "Pune", "Mah", "111 222", "91 2837373737", "sam@g.com");
-            addressBook.AddContact(contact);
             DataRow result = addressBook.EditContactUsingName("Sam Sher", "Address", "kondhwa");
             DataRow row = addressBook.AddressBook.NewRow();
             row["FirstName"] = "Sam";
@@ -60,11 +67,6 @@ namespace NUnitTestProject
         [Test]
         public void GivenTable_WhenDeletedContact_ShouldReturnTrue()
         {
-            Contact contact = new Contact("Sam", "Sher", "Shivajinagr", "Pune", "Mah", "111 222", "91 2837373737", "sam@g.com");
-            Contact contact1 = new Contact("Maj", "Sin", "vile", "mumbai", "Mah", "111 222", "91 2837373737", "maj@g.com");
-
-            addressBook.AddContact(contact);
-            addressBook.AddContact(contact1);
             bool result = addressBook.DeleteContact("Maj Sin");
             Assert.IsTrue(result);
         }
@@ -72,11 +74,6 @@ namespace NUnitTestProject
         [Test]
         public void GivenTable_WhenRetrievePersonsBelongToCityOrState_ShouldReturnDataTable()
         {
-            Contact contact = new Contact("Sam", "Sher", "Shivajinagr", "Pune", "Mah", "111 222", "91 2837373737", "sam@g.com");
-            Contact contact1 = new Contact("Maj", "Sin", "vile", "mumbai", "Mah", "111 222", "91 2837373737", "maj@g.com");
-
-            addressBook.AddContact(contact);
-            addressBook.AddContact(contact1);
             DataRow row = addressBook.AddressBook.NewRow();
             row["FirstName"] = "Sam";
             row["LastName"] = "Sher";
@@ -88,8 +85,13 @@ namespace NUnitTestProject
             row["Email"] = "sam@g.com";
             DataTable table = addressBook.RetrievePersonsFromCityOrState("City", "Pune");
             Assert.AreEqual(row["City"], table.Rows[0]["City"]);
-
         }
 
+        [Test]
+        public void GivenTable_WhenQueriedSizeOfAddressBookByCityOrState_ShouldReturnExpected()
+        {
+            int result = addressBook.GetCountOfPersonsInCityOrState("City", "pune");
+            Assert.AreEqual(2, result);
+        }
     }
 }
